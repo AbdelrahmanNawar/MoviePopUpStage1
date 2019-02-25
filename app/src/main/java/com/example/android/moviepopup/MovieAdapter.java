@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class MovieAdapter extends RecyclerView.Adapter<ImageViewHolder> {
     public SendingIndex sendingIndex;
+    public ArrayList<MovieStructure> sortHolderType;
     public MovieAdapter(SendingIndex mySendingIndex){
         sendingIndex = mySendingIndex;
     }
@@ -23,7 +26,7 @@ public class MovieAdapter extends RecyclerView.Adapter<ImageViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder imageViewHolder, int i) {
         Picasso.get()
-                .load("http://image.tmdb.org/t/p/w185/" + FetchJSONData.movieObjectList.get(i).imageMovie)
+                .load("http://image.tmdb.org/t/p/w185/" + sortHolderType.get(i).imageMovie)
                 .placeholder(R.drawable.loadingicon)
                 .error(R.drawable.internetfailed)
                 .into(imageViewHolder.imageView);
@@ -32,7 +35,6 @@ public class MovieAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 
     @Override
     public int getItemCount() {
-
-        return FetchJSONData.movieObjectList.size();
+        return sortHolderType.size();
     }
 }

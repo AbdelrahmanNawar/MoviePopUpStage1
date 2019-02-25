@@ -1,7 +1,6 @@
 package com.example.android.moviepopup;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +15,8 @@ import java.util.Scanner;
 
 
 public class FetchJSONData extends AsyncTask<Void, Void, Void> {
-    public static ArrayList<MovieStructure> movieObjectList = new ArrayList<>();
+    public static ArrayList<MovieStructure> pMovieObjectList = new ArrayList<>();
+    public static ArrayList<MovieStructure> trMovieObjectList = new ArrayList<>();
     MainActivity main;
     public FetchJSONData(MainActivity main){
         this.main = main;
@@ -24,8 +24,11 @@ public class FetchJSONData extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            URL url = new URL("http://api.themoviedb.org/3/movie/popular?api_key=bb527388b12351f469d567558bd8384d");
-            JsonGetter(internetGetter(url));
+            URL urlPopular = new URL("http://api.themoviedb.org/3/movie/popular?api_key=bb527388b12351f469d567558bd8384d");
+            URL urlTopRated = new URL("http://api.themoviedb.org/3/movie/top_rated?api_key=bb527388b12351f469d567558bd8384d");
+            JsonGetter(internetGetter(urlPopular),1);
+            JsonGetter(internetGetter(urlTopRated),2);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +60,7 @@ public class FetchJSONData extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public void JsonGetter (String jsonObject) {
+    public void JsonGetter (String jsonObject,int sortInt) {
         JSONObject moviePackage = null;
         try {
             moviePackage = new JSONObject(jsonObject);
@@ -74,9 +77,14 @@ public class FetchJSONData extends AsyncTask<Void, Void, Void> {
                 String releaseDateMovie = theMovie.getString("release_date");
                 double voteAverageMovie = theMovie.getInt("vote_average");
                 double popularityOfMovie = theMovie.getDouble("popularity");
+                if(sortInt == 1){
+                    MovieStructure movieInfo = new MovieStructure(titleMovie,imageMovie,overviewMovie,releaseDateMovie,voteAverageMovie,popularityOfMovie);
+                    pMovieObjectList.add(movieInfo);
+                }else if(sortInt == 2){
+                    MovieStructure movieInfo = new MovieStructure(titleMovie,imageMovie,overviewMovie,releaseDateMovie,voteAverageMovie,popularityOfMovie);
+                    trMovieObjectList.add(movieInfo);
+                }
 
-                MovieStructure movieInfo = new MovieStructure(titleMovie,imageMovie,overviewMovie,releaseDateMovie,voteAverageMovie,popularityOfMovie);
-                movieObjectList.add(movieInfo);
             }
         } catch (JSONException e) {
             e.printStackTrace();

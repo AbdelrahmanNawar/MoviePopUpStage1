@@ -23,14 +23,14 @@ public class MovieDetails extends AppCompatActivity {
         TextView overview = findViewById(R.id.overview__in_details);
 
         Picasso.get()
-                .load("http://image.tmdb.org/t/p/w185/" + FetchJSONData.movieObjectList.get(i).imageMovie)
+                .load("http://image.tmdb.org/t/p/w185/" + FetchJSONData.pMovieObjectList.get(i).imageMovie)
                 .placeholder(R.drawable.loadingicon)
                 .error(R.drawable.internetfailed)
                 .into(image);
-        title.setText(FetchJSONData.movieObjectList.get(i).titleMovie);
-        releaseDate.setText(FetchJSONData.movieObjectList.get(i).releaseDateMovie);
-        overview.setText(FetchJSONData.movieObjectList.get(i).overviewMovie);
-        voteAverage.setText(FetchJSONData.movieObjectList.get(i).voteAverage + "/10");
+        title.setText(FetchJSONData.pMovieObjectList.get(i).titleMovie);
+        releaseDate.setText(FetchJSONData.pMovieObjectList.get(i).releaseDateMovie);
+        overview.setText(FetchJSONData.pMovieObjectList.get(i).overviewMovie);
+        voteAverage.setText(FetchJSONData.pMovieObjectList.get(i).voteAverage + "/10");
 
     }
 }
